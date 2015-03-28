@@ -13,7 +13,7 @@ properties of visualized in a variery of ways.
 
 Objects:
   <pre>
-  _*EntityElementIndex*_
+  **EntityElementIndex**
     Description 
       A CSV file that contains an Entity to Element index
       Must contain at least two columns -- Entity ID and Element ID
@@ -32,7 +32,7 @@ Objects:
       get_element_classes
       get_distinct_entity_ids
       get_distinct_element_ids
-  EntityGraphConfig
+  **EntityGraphConfig**
     Description
       Defines which cols and filters will be used to construct the graph
     Methods
@@ -44,14 +44,14 @@ Objects:
       set_subject_term_filter_vals
       set_object_term_filter_vals
       get_config
-  EntityGraph
+  **EntityGraph**
     Description
     Methods
       set_index (object)
       set_config (object)
       generate_graph
       get_properties
-  EntityGraphViz
+  **EntityGraphViz**
     Methods
       set_graph (object)
 </pre>      
