@@ -12,6 +12,7 @@ properties of visualized in a variery of ways.
 # Object Model
 
 Objects:
+  <pre>
   EntityElementIndex
     Description 
       A CSV file that contains an Entity to Element index
@@ -53,5 +54,5 @@ Objects:
   EntityGraphViz
     Methods
       set_graph (object)
-      
+</pre>      
       
