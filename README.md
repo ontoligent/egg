@@ -13,7 +13,7 @@ properties of visualized in a variery of ways.
 
 Objects:
   <pre>
-  EntityElementIndex
+  *EntityElementIndex*
     Description 
       A CSV file that contains an Entity to Element index
       Must contain at least two columns -- Entity ID and Element ID
@@ -49,7 +49,7 @@ Objects:
     Methods
       set_index (object)
       set_config (object)
-      generate_graph  
+      generate_graph
       get_properties
   EntityGraphViz
     Methods
