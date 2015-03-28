@@ -13,7 +13,7 @@ properties of visualized in a variery of ways.
 
 Objects:
   <pre>
-  *EntityElementIndex*
+  _*EntityElementIndex*_
     Description 
       A CSV file that contains an Entity to Element index
       Must contain at least two columns -- Entity ID and Element ID
