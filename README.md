@@ -1,13 +1,29 @@
 # Synopsis
 
-Takes a csv file that maps semantic entities to document elements and 
-generates an entity graph following the common container correlation 
+Takes a CSV file that maps *semantic entities* to *document elements* and 
+generates an *entity graph* following the *common container correlation* 
 pattern (Alvarado 2015). This graph may then be analyzed for its network 
 properties of visualized in a variery of ways.
 
-# Desing Notes
+# Design Notes
 
 * Didactic code, i.e. verbose. Could have been written as one-liners.
+
+# Background Information
+
+What is an entity graph?
+
+Entity Graphs can be generated from Entity Indexes.
+
+Examples of well known entity graphs include:
+* Term/Document Frequency lists
+* Knuth's Les Miserables
+* Examples from TextScope
+* Latour and Teil's Hume Machine
+
+Other examples:
+* Chacters names in paragraphs
+* Iconographic elements in works of art
 
 # Object Model
 
@@ -21,15 +37,20 @@ Objects:
       May also containt Entity Class and Element Class cols as well
       If the class columns are not present, a default type for each should be given
     Methods
-      load_file
-      set_element_id_col
-      set_element_class_col
-      set_entity_id_col
-      set_entity_class_col
-      set_default_element_class
-      set_default_entity_class
-      get_row_count
-      get_col_count
+      set_csvfile(csvfile)
+      	csvfile = full path to a CSV file in the proper format
+      set_element_id_col(colname)
+      	colname = the name of the column that contains element IDs
+      set_element_class_col(colname)
+      	colname = the name of the column that contains element class values
+      set_entity_id_col(colname)
+				colname = the name of the column that contains entity IDs
+      set_entity_class_col(colname)
+      	colname = the name of the column that contains entity class values
+      set_default_element_class(classname)
+      set_default_entity_class(classname)
+			get_dataframe
+				Returns the pandas dataframe object for the CSV file
       get_element_classes
       get_distinct_entity_ids
       get_distinct_element_ids

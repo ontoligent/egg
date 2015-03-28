@@ -4,16 +4,16 @@ EGG, an Entity Graph Generator
 
 import pandas as pd
 
-class EntityElementIndex():
+class EntityElementIndex(object):
 
-	filename = ''
-	dataframe = ''
-	element_id_col = 'element_id'
-	element_class_col = 'element_class'
-	entity_id_col = 'entity_id'
-	entity_class_col = 'entity_class'
+	filename              = ''
+	dataframe             = ''
+	element_id_col        = 'element_id'
+	element_class_col     = 'element_class'
+	entity_id_col         = 'entity_id'
+	entity_class_col      = 'entity_class'
 	default_element_class = 'element'
-	default_entity_class= 'entity'
+	default_entity_class  = 'entity'
 	
 	def set_csvfile(self,filename):
 		self.filename = filename
@@ -36,16 +36,9 @@ class EntityElementIndex():
 
 	def set_default_entity_class(self,classname):
 		self.default_entity_class = classname
-
-	def get_row_count(self):
-		return len(self.dataframe[:])
-
-	def get_col_count(self):
-		cols = self.dataframe.columns.values.tolist()
-		return len(cols)
 		
 	def get_dataframe(self):
-	  return self.dataframe
+		return self.dataframe
 
 	def get_element_classes(self):
 		return 1
@@ -113,4 +106,9 @@ if __name__ == '__main__':
 	my_demo ='charrette.csv' 
 	idx = EntityElementIndex()
 	idx.set_csvfile(my_root + my_demo)
-	print idx.get_col_count(), idx.get_row_count()
+	idx.set_element_id_col('element_id')
+	idx.set_entity_id_col('entity_id')
+	idx.set_element_class_col('element_class')
+	idx.set_entity_class_col('entity_class')
+	df = idx.get_dataframe()
+	print df
