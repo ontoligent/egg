@@ -1,98 +1,74 @@
-'''
-EGG, an Entity Graph Generator
-'''
+# EGG, an Entity Graph Generator
 
 import pandas as pd
 
 class EntityElementIndex(object):
 
-	filename              = ''
-	dataframe             = ''
-	element_id_col        = 'element_id'
-	element_class_col     = 'element_class'
-	entity_id_col         = 'entity_id'
-	entity_class_col      = 'entity_class'
-	default_element_class = 'element'
-	default_entity_class  = 'entity'
+	filename			  	= ''
+	dataframe			  	= object
+	element_id_col		  	= 'element_id'
+	element_class_col	  	= 'element_class'
+	entity_id_col		  	= 'entity_id'
+	entity_class_col	  	= 'entity_class'
+	default_element_class 	= 'element'
+	default_entity_class  	= 'entity'
 	
-	def set_csvfile(self,filename):
+	def load_csvfile(self,filename):
 		self.filename = filename
-		self.dataframe = pd.read_csv(self.filename)
-		
-	def set_element_id_col(self,colname):
-		self.element_id_col = colname
-
-	def set_element_class_col(self,colname):
-		self.element_class_col = colname
-
-	def set_entity_id_col(self,colname):
-		self.entity_id_col = colname
-
-	def set_entity_class_col(self,colname):
-		self.entity_class_col = colname
-
-	def set_default_element_class(self,classname):
-		self.default_element_class = classname
-
-	def set_default_entity_class(self,classname):
-		self.default_entity_class = classname
-		
-	def get_dataframe(self):
-		return self.dataframe
-
-	def get_element_classes(self):
-		return 1
-
-	def get_distinct_entity_ids(self):
-		return 1
-
-	def get_distinct_element_ids(self):
-		return 1
-		
-	def get_dataframe(self):
-		return self.dataframe
+		self.dataframe = pd.read_csv(self.filename)        
 
 
 class EntityGraphConfig(object):
-
-	def set_middle_term_col(self,colname):
-		return 1
-
-	def set_subject_term_col(self,colname):
-		return 1
-
-	def set_object_term_col(self,colname):
-		return 1
-
-	def set_subject_term_filter_col(self,colname):
-		return 1
-
-	def set_object_term_filter_col(self,colnanme):
-		return 1
-
-	def set_subject_term_filter_vals(self,vals):
-		return 1
-
-	def set_object_term_filter_vals(self,vals):
-		return 1
-
-	def get_config(self):
-		return 1
-
+	
+	middle_term_col 			= 'element_id'
+	subject_term_col 			= 'entity_id'
+	predicate_term_col			= 'entity_id'
+	subject_term_filter_col 	= 'entity_class'
+	predicate_term_filter_col 	= 'entity_class'
+	subject_term_filter_set		= set({})
+	predicate_term_filter_set 	= set({})
+	
 
 class EntityGraph(object):
-
-	def set_index(self, index_obj):
-		return 1
-
-	def set_config(self, config_obj):
-		return 1
-
+	index	= object
+	config  = object
+	graph	= {'nodes': object, 'edges': object} 
+	
 	def generate_graph(self):
-		return 1
+		
+		# Get objects 
+		df 	= self.index.dataframe
+		cfg	= self.config
+		
+		# Get configs
+		m  = cfg.middle_term_col # Middle Term
+		s  = cfg.subject_term_col # Subject 
+		p  = cfg.predicate_term_col # Predicate
+		sf = cfg.subject_term_filter_col
+		sv = cfg.subject_term_filter_set
+		pf = cfg.predicate_term_filter_col
+		pv = cfg.predicate_term_filter_set
+		
+		# Create left and right tables for join and make graph
+		S = df[[s,m]][df[sf].isin(sv)] # Subjects
+		P = df[[p,m]][df[pf].isin(pv)] # Predicates
 
-	def get_properties(self):
-		return 1
+		# Create node array
+		N = pd.concat([S[s],P[p]])
+		N = pd.unique(N.values.ravel())
+		
+		# Create edges 
+		E = pd.merge(S,P,on=m)
+		E.columns = ['s','m','p']
+		E = E[['s','p']][E.s != E.p].drop_duplicates().sort('s')
+		
+		# But may want to count repeats?
+				
+		# Remove reverse edges
+		
+		# Remove duplicates
+				
+		self.graph = {'nodes':N, 'edges':E}
 
 
 class EntityGraphViz(object):
@@ -102,13 +78,32 @@ class EntityGraphViz(object):
 
 	
 if __name__ == '__main__':
+	
 	my_root = '/Users/rca2t/Dropbox/PLAY/egg/demo/'
-	my_demo ='charrette.csv' 
+	my_demo ='faulkner.csv' 
+
+	# Create an object from the index file
 	idx = EntityElementIndex()
-	idx.set_csvfile(my_root + my_demo)
-	idx.set_element_id_col('element_id')
-	idx.set_entity_id_col('entity_id')
-	idx.set_element_class_col('element_class')
-	idx.set_entity_class_col('entity_class')
-	df = idx.get_dataframe()
-	print df
+	idx.load_csvfile(my_root + my_demo)
+	idx.element_id_col 			= 'element_id'
+	idx.entity_id_col 			= 'entity_id'
+	idx.element_class_col 		= 'element_class'
+	idx.entity_class_col 		= 'entity_class'
+
+	# Define parameters for the graph to generate from the index object
+	cfg = EntityGraphConfig()
+	cfg.middle_term_col 			= 'element_id'
+	cfg.subject_term_col 			= 'entity_id'
+	cfg.predicate_term_col 			= 'entity_id'
+	cfg.subject_term_filter_col 	= 'entity_class'
+	cfg.predicate_term_filter_col	= 'entity_class'
+	cfg.subject_term_filter_set 	= {'character'}
+	cfg.predicate_term_filter_set 	= {'location'}
+	
+	# Create the graph object
+	g 			= EntityGraph()
+	g.index 	= idx
+	g.config 	= cfg
+	g.generate_graph()
+	print g.graph['edges']
+	print "DONE"

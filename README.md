@@ -11,11 +11,15 @@ properties of visualized in a variery of ways.
 
 # Background Information
 
-What is an entity graph?
+## What is an entity graph?
 
-Entity Graphs can be generated from Entity Indexes.
+### Common Container Correlation
 
-Examples of well known entity graphs include:
+### Data Model
+
+### Mapping Entities and Elements to Ontologies	
+
+### Examples of well known entity graphs include:
 * Term/Document Frequency lists
 * Knuth's Les Miserables
 * Examples from TextScope
